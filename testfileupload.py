@@ -1,9 +1,17 @@
 import os
-import time
 
-directory = r"C:\Users\Henrik\Documents\PROGRAMMING\Instagram bot\memesToUpload"
+subreddit = "okbuddyretard"
+zipName = f"{subreddit}_hot.zip"
 
-for filename in os.scandir(directory):
-    if filename.is_file():
-        time.sleep(1)
-        print(filename.path)
+directory = (fr"C:\Users\Henrik\Downloads\{zipName}")
+directory = r"C:\Users\Henrik\Downloads\okbuddyretard_hot.zip"
+
+import os
+import zipfile
+files = zipfile.ZipFile(directory, "r")
+for name in files.namelist():
+    data = files.read(name)
+    pathName = os.path.abspath(fr"C:\Users\Henrik\Downloads\okbuddyretard_hot\{name}.jpg")
+    coolPath = os.path.join(directory, name)
+    print(pathName)
+    print(coolPath)

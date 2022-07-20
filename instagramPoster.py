@@ -9,8 +9,13 @@ import random
 import csv
 from selenium.webdriver.common.action_chains import ActionChains
 import pyautogui
+import zipfile
+import os
 
-def PostThing(url,username1,password1):
+#Hearthstone9
+
+
+def PostThing(url,username1,password1,subreddit):
     for i in range(1):
         
         print(f"POST ATTEMPT 1")
@@ -18,8 +23,47 @@ def PostThing(url,username1,password1):
         PATH = "C:\Program Files (x86)\chromedriver.exe"
 
         driver = webdriver.Chrome(PATH)
-        driver.get(url)
         action = webdriver.ActionChains(driver)
+
+        #---DOWNLOADING 
+
+        driver.get("https://redditdownloader.github.io/")
+
+        time.sleep(2)
+    
+        #send subreddit
+        search = driver.find_element_by_xpath("/html/body/div/div[2]/div[2]/div[1]/input")
+        search.send_keys(subreddit)
+
+        time.sleep(1)
+
+        #turn off imgur and gyfcat
+        search = driver.find_element_by_xpath("/html/body/div/div[2]/div[3]/div[2]/div[3]/div/div/div/label")
+        search.click()
+
+        #turn off vidoes
+        search = driver.find_element_by_xpath("/html/body/div/div[2]/div[3]/div[2]/div[1]/div[2]/div/div/div/label")
+        search.click()
+
+        time.sleep(1)
+        
+        #click download
+        search = driver.find_element_by_xpath("/html/body/div/div[2]/button")
+        search.click()
+
+        time.sleep(7)
+
+        zipName = f"{subreddit}_hot.zip"
+
+        directory = (fr"C:\Users\Henrik\Downloads\{zipName}")
+
+        time.sleep(2)
+
+        driver.quit
+
+        #---GOING TO INSTAGRAM
+
+        driver.get(url)
         
         time.sleep(3)
 
@@ -40,70 +84,80 @@ def PostThing(url,username1,password1):
 
         time.sleep(3)
 
-        import os
-        directory = "PhotosToUpload"
         
         # iterate over files in
         # that directory
 
-        directory = r"C:\Users\Henrik\Documents\PROGRAMMING\Instagram bot\memesToUpload"
+        
+    files = zipfile.ZipFile(directory, "r")
+    for name in files.namelist():
+        print(files.namelist())
 
-        for filename in os.scandir(directory):
-            if filename.is_file():
+        pathName = os.path.abspath(fr"C:\Users\Henrik\Downloads\{zipName}\{name}")
+        coolPath = os.path.join(directory, name)
+        print(pathName)
+        print(coolPath)
 
-                print(filename.path)
+        time.sleep(5)
 
-                #drv.find_element_by_id("IdOfInputTypeFile").send_keys(os.getcwd()+"/image.png")
-                time.sleep(0.5)
+        search = driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[3]/div/button")
+        search.click()
 
-                search = driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[3]/div/button")
-                search.click()
+        time.sleep(2)
 
-                time.sleep(0.5)
+        clickUpload = driver.find_element_by_xpath("/html/body/div[8]/div[2]/div/div/div/div[2]/div[1]/div/div/div[2]/div/button")
+        clickUpload.click()
+        time.sleep(1)
+        pyautogui.write(pathName) 
+        pyautogui.press('enter')
 
-                clickUpload = driver.find_element_by_xpath("/html/body/div[8]/div[2]/div/div/div/div[2]/div[1]/div/div/div[2]/div/button")
-                clickUpload.click()
-                time.sleep(1)
-                pyautogui.write(filename.path) 
-                pyautogui.press('enter')
+        time.sleep(1)
+        #crop
 
-                time.sleep(1)
+        buttonNext = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/div[1]/div/div[2]/div/button")
+        buttonNext.click()
+        time.sleep(1)
 
-                buttonNext = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[3]/div/button")
-                buttonNext.click()
+        buttonNext = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[2]/div[1]/div/div/div/div[1]/div/div[1]/div/button[1]")
+        buttonNext.click()
 
-                time.sleep(1)
+        #done cropping
+        time.sleep(1)
 
-                buttonNext = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[3]/div/button")
-                buttonNext.click()
+        buttonNext = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[3]/div/button")
+        buttonNext.click()
+
+        time.sleep(1)
+
+        buttonNext = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[3]/div/button")
+        buttonNext.click()
                 
-                time.sleep(0.5)
-                #write caption
+        time.sleep(0.5)
+        #write caption
                 
-                captionWriteArea = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[1]/textarea")
-                captionWriteArea.send_keys("#meme #funny #memedayeveryday #everymemetoday")
+        captionWriteArea = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[1]/textarea")
+        captionWriteArea.send_keys("#meme #funny #memedayeveryday #everymemetoday")
 
-                time.sleep(0.5)
+        time.sleep(0.5)
 
-                buttonShare = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[3]/div/button")
-                buttonShare.click()
+        buttonShare = driver.find_element_by_xpath("/html/body/div[6]/div[2]/div/div/div/div[1]/div/div/div[3]/div/button")
+        buttonShare.click()
 
-                time.sleep(6)
+        time.sleep(6)
 
-                buttonX = driver.find_element_by_xpath("/html/body/div[6]/div[1]/button")
-                buttonX.click()
+        buttonX = driver.find_element_by_xpath("/html/body/div[6]/div[1]/button")
+        buttonX.click()
 
-                time.sleep(40)
-
+        time.sleep(30)
 
         #might not need this down here
 
-        time.sleep(100)
-
         #driver.quit()
+    os.remove(directory)
 
 if __name__ == '__main__':
     #type username password
     name = "everymemetoday"
     password = "FreeTyler1"
-    PostThing("https://www.instagram.com/",name,password)
+    subRedditToDownload = "okbuddyretard"
+    PostThing("https://www.instagram.com/",name,password,subRedditToDownload)
