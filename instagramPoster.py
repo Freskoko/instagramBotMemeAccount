@@ -12,7 +12,7 @@ import pyautogui
 import zipfile
 import os
 
-#Hearthstone9
+#
 
 
 def PostThing(url,username1,password1,subreddit):
@@ -157,7 +157,7 @@ def PostThing(url,username1,password1,subreddit):
 
 if __name__ == '__main__':
     #type username password
-    name = "everymemetoday"
-    password = "FreeTyler1"
+    name = ""
+    password = ""
     subRedditToDownload = "okbuddyretard"
     PostThing("https://www.instagram.com/",name,password,subRedditToDownload)
